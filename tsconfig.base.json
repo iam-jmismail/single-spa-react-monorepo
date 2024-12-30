@@ -1,16 +1,26 @@
 {
-    "compilerOptions": {
-      "target": "ES5",
-      "lib": ["DOM", "ES5", "ES2015.Promise"],
-      "strict": false,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "Node",
-      "resolveJsonModule": true,
-      "jsx": "react-jsx"
-    },
-    "include": ["apps/**/*"],
-    "exclude": ["node_modules", "dist"]
-  }
-  
+  "compilerOptions": {
+    "target": "ES5",
+    "lib": [
+      "DOM",
+      "ES5",
+      "ES2015.Promise"
+    ],
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "apps/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "node_modules/single-spa/typings",
+    "node_modules/single-spa-layout/node_modules/single-spa/typings"
+  ]
+}
