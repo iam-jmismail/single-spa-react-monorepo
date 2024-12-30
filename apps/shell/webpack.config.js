@@ -1,6 +1,8 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "sspa-poc";
@@ -13,8 +15,19 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    // modify the webpack config however you'd like to by adding to this object
+    mode: "development",
+    devServer: {
+      hot: true,
+      open: true,
+      historyApiFallback: true,
+    },
+    output: {
+      path: path.resolve(__dirname, "../../.dist/shell"),
+      publicPath: "/",
+      chunkFormat: "array-push",
+    },
     plugins: [
+      new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
         inject: false,
         template: "src/index.ejs",
