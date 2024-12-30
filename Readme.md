@@ -2,6 +2,14 @@ yarn install --ignore-engines
 
 http://localhost:8500/sspa-poc-client.js
 
+### Install Dependencies
+
+In the root folder
+
+```sh
+yarn install # use --ignore-engines flag for version compatibility
+```
+
 ### Starting apps
 
 ```sh

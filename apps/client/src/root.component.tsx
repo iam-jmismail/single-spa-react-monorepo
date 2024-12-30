@@ -1,13 +1,8 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-
-import { Header } from "@shared/components/Header";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
 
 export default function Root(props) {
-  return (
-    <section>
-      <Header />
-      Hello !
-    </section>
-  );
+  return <RouterProvider router={router} />;
 }
