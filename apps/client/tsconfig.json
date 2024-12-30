@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../.dist/client",
-    "rootDir": "src" 
+    "rootDir": "../../" 
   },
   "files": ["src/sspa-poc-client.tsx"],
-  "include": ["src/**/*"],
+  "include": ["src/**/*",  "../../shared/**/*"],
   "exclude": ["node_modules", "dist", "src/**/*.test*"]
 }
