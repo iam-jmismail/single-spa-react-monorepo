@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "ES5",
+      "lib": ["DOM", "ES5", "ES2015.Promise"],
+      "strict": false,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "Node",
+      "resolveJsonModule": true,
+      "jsx": "react-jsx"
+    },
+    "include": ["apps/**/*"],
+    "exclude": ["node_modules", "dist"]
+  }
+  
