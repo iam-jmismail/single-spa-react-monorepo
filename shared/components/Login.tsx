@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Form, Alert } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import React, { useState } from "react";
 import { AuthFactory } from "../factories/AuthFactory";
 import { HttpStatusCode } from "axios";
@@ -13,11 +13,14 @@ type FormData = {
 const Login = () => {
   const [loading, setLoading] = useState({ loading: false });
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = async (formData) => {
@@ -36,12 +39,15 @@ const Login = () => {
 
         if (role === 2) {
           window.location.href = "/app";
-          return;
         } else {
           window.location.href = "http://localhost:9000/admin";
         }
       }
     } catch (error) {
+      if (error?.response.status === HttpStatusCode.NotFound) {
+        setError("email", { message: "Invalid email or password" });
+      }
+
       setLoading((prev) => ({ ...prev, loading: false }));
     }
   };

@@ -1,6 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Form, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthFactory } from "@shared/factories/AuthFactory";
+import { useState } from "react";
+import { HttpStatusCode } from "axios";
 
 type FormData = {
   email: string;
@@ -9,14 +12,52 @@ type FormData = {
 };
 
 const Register = () => {
+  const [loading, setLoading] = useState({ loading: false });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("Register form submitted:", data);
+  const onSubmit: SubmitHandler<FormData> = async (formData) => {
+    setLoading((prev) => ({ ...prev, loading: true }));
+    try {
+      const {
+        status,
+        data: { role, auth_token },
+      } = await AuthFactory.regsister({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+      });
+
+      if (status === HttpStatusCode.Ok) {
+        localStorage.setItem("auth_token", auth_token);
+
+        if (role === 2) {
+          if (redirect) {
+            navigate(redirect);
+          } else {
+            navigate("/app");
+            return;
+          }
+        } else {
+          window.location.href = "http://localhost:9000/admin";
+        }
+      }
+    } catch (error: any) {
+      if (error?.response.status === HttpStatusCode.Conflict) {
+        setError("email", { message: "Email already exists" });
+      }
+
+      setLoading((prev) => ({ ...prev, loading: false }));
+    }
   };
 
   return (
@@ -81,7 +122,12 @@ const Register = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button variant="dark" type="submit" className="w-100 mt-4">
+        <Button
+          variant="dark"
+          type="submit"
+          className="w-100 mt-4"
+          disabled={loading.loading}
+        >
           Register
         </Button>
       </Form>

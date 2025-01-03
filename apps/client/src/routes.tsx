@@ -4,6 +4,7 @@ import Login from "@shared/components/Login";
 import Cart from "./pages/Cart";
 import Register from "./pages/Register";
 import { Thankyou } from "./pages/ThankYou";
+import PrivateRoute from "@shared/components/PrivateRoute";
 
 export const router = createBrowserRouter(
   [
@@ -21,7 +22,11 @@ export const router = createBrowserRouter(
     },
     {
       path: "/cart",
-      element: <Cart />,
+      element: (
+        // <PrivateRoute>
+        <Cart />
+        // </PrivateRoute>
+      ),
     },
     {
       path: "/success",

@@ -17,6 +17,7 @@ import Header from "@shared/components/Header";
 import { IAddOrderReqBody, OrderFactory } from "@shared/factories/OrderFactory";
 import { useNavigate } from "react-router-dom";
 import EmptyCart from "../components/EmptyCart";
+import { useAuth } from "../context/AuthContext";
 
 type Props = {};
 
@@ -25,6 +26,7 @@ type CartItem = IProduct & { quantity: number };
 const Cart = (props: Props) => {
   const { cart: prevCart, updateCart } = useCart();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const handleAddToCart = (productId: string) => {
     const product = prevCart.find((p) => p._id === productId);
@@ -177,6 +179,7 @@ const Cart = (props: Props) => {
                       variant="dark"
                       className="w-100"
                       onClick={handleCheckOut}
+                      disabled={!isAuthenticated}
                     >
                       Checkout
                     </Button>
