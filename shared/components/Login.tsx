@@ -1,6 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Form, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { AuthFactory } from "../factories/AuthFactory";
+import { HttpStatusCode } from "axios";
 
 type FormData = {
   email: string;
@@ -8,15 +11,39 @@ type FormData = {
 };
 
 const Login = () => {
+  const [loading, setLoading] = useState({ loading: false });
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    // TODO: Implement login logic here
-    console.log("Login form submitted:", data);
+  const onSubmit: SubmitHandler<FormData> = async (formData) => {
+    setLoading((prev) => ({ ...prev, loading: true }));
+    try {
+      const {
+        status,
+        data: { role, auth_token },
+      } = await AuthFactory.login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (status === HttpStatusCode.Ok) {
+        localStorage.setItem("auth_token", auth_token);
+
+        if (role === 2) {
+          window.location.href = "/app";
+          return;
+        } else {
+          window.location.href = "http://localhost:9000/admin";
+        }
+      }
+    } catch (error) {
+      setLoading((prev) => ({ ...prev, loading: false }));
+    }
   };
 
   return (

@@ -3,6 +3,7 @@ import Products from "./pages/Products";
 import Login from "@shared/components/Login";
 import Cart from "./pages/Cart";
 import Register from "./pages/Register";
+import { Thankyou } from "./pages/ThankYou";
 
 export const router = createBrowserRouter(
   [
@@ -21,6 +22,10 @@ export const router = createBrowserRouter(
     {
       path: "/cart",
       element: <Cart />,
+    },
+    {
+      path: "/success",
+      element: <Thankyou />,
     },
   ],
   {
