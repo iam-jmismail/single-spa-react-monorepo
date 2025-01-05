@@ -82,7 +82,7 @@ export const Products = (props: Props) => {
   };
 
   return (
-    <Layout>
+    <Layout isAdmin>
       <div className="d-flex justify-content-between align-items-center">
         <div>
           <h3 className="my-4">Products</h3>

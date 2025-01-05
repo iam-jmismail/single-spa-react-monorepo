@@ -35,7 +35,6 @@ const Products = (props: Props) => {
           setProducts(data);
         }
       } catch (error) {
-        // If Unauthorized
         if (error?.response.status === HttpStatusCode.Unauthorized) {
           navigate("/login");
         }

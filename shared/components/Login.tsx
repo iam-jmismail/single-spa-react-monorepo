@@ -14,6 +14,9 @@ const Login = () => {
   const [loading, setLoading] = useState({ loading: false });
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isAdmin = window.location.pathname.split("/")[1] === "admin";
+
   const redirect = new URLSearchParams(location.search).get("redirect") || "/";
 
   const {
@@ -111,9 +114,11 @@ const Login = () => {
         </Button>
       </Form>
 
-      <div className="text-center mt-3">
-        <Link to="/signup">Don't have an account? Signup</Link>
-      </div>
+      {!isAdmin ? (
+        <div className="text-center mt-3">
+          <Link to="/signup">Don't have an account? Signup</Link>
+        </div>
+      ) : null}
     </div>
   );
 };

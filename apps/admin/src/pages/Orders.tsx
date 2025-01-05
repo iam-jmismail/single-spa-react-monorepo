@@ -1,7 +1,7 @@
 import Layout from "@shared/components/Layout";
 import { IOrdersDto, OrderFactory } from "@shared/factories/OrderFactory";
 import { HttpStatusCode } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Table, Modal, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -140,10 +140,22 @@ export const Orders = (props: Props) => {
     }
   };
 
-  return (
-    <Layout>
-      <h3>Orders</h3>
+  const selectedOrderIdStatus = useMemo(() => {
+    if (selectedOrderId) {
+      const getOrder = orders.find((o) => o._id === selectedOrderId);
+      return getOrder.status;
+    } else return null;
+  }, [selectedOrderId]);
 
+  return (
+    <Layout isAdmin>
+      <div className="d-flex justify-content-between align-items-center">
+        <div>
+          <h3 className="my-4">Orders</h3>
+        </div>
+
+        <div></div>
+      </div>
       <Table striped bordered>
         <thead>
           <tr>
@@ -203,14 +215,14 @@ export const Orders = (props: Props) => {
         <Modal.Footer>
           <Button
             variant="success"
-            disabled={loading.dispatch}
+            disabled={loading.dispatch || selectedOrderIdStatus != 1}
             onClick={handleDispatch}
           >
             <FaTruck /> Dispatch
           </Button>
           <Button
             variant="danger"
-            disabled={loading.cancel}
+            disabled={loading.cancel || selectedOrderIdStatus != 1}
             onClick={handleCancelOrder}
           >
             <FaTimes /> Cancel
