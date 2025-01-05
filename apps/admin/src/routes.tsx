@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "@shared/components/Login";
 import { Orders } from "./pages/Orders";
+import { Products } from "./pages/Products";
+import { ProductProvider } from "./context/ProductContext";
 
 export const router = createBrowserRouter(
   [
@@ -15,6 +17,14 @@ export const router = createBrowserRouter(
     {
       path: "/orders",
       element: <Orders />,
+    },
+    {
+      path: "/products",
+      element: (
+        <ProductProvider>
+          <Products />
+        </ProductProvider>
+      ),
     },
   ],
   {

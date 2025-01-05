@@ -7,8 +7,8 @@ export interface IProduct {
   price: number;
   currency: string;
   isDeleted: boolean;
+  createdAt: Date;
   updatedAt: Date;
-  udpatedAt: Date;
 }
 
 export class ProductFactory {
@@ -16,5 +16,16 @@ export class ProductFactory {
 
   static async getProducts() {
     return await this.http.get<ApiResponse<IProduct[]>>("/product");
+  }
+
+  static async updateProduct(productId: string, data: Partial<IProduct>) {
+    return await this.http.put<ApiResponse<null>>(
+      `/product/${productId}`,
+      data
+    );
+  }
+
+  static async addProduct(data: IProduct) {
+    return await this.http.post<ApiResponse<IProduct>>(`/product`, data);
   }
 }
