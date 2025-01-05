@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import React, { useState } from "react";
 import { AuthFactory } from "../factories/AuthFactory";
 import { HttpStatusCode } from "axios";
+import { toast } from "react-toastify";
 
 type FormData = {
   email: string;
@@ -16,8 +17,6 @@ const Login = () => {
   const location = useLocation();
 
   const isAdmin = window.location.pathname.split("/")[1] === "admin";
-
-  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
 
   const {
     register,
@@ -38,26 +37,33 @@ const Login = () => {
       });
 
       if (status === HttpStatusCode.Ok) {
-        localStorage.setItem("auth_token", auth_token);
-
-        if (role === 2) {
-          window.location.href = "/app";
-        } else {
+        if (isAdmin && role == 1) {
+          localStorage.setItem("auth_token", auth_token);
           window.location.href = "/admin/orders";
+        } else if (isAdmin && role !== 1) {
+          setError("email", { message: "Invalid user" });
+        } else if (!isAdmin && role == 2) {
+          localStorage.setItem("auth_token", auth_token);
+          window.location.href = "/app";
+        } else if (!isAdmin && role !== 2) {
+          setError("email", { message: "Invalid user" });
         }
       }
     } catch (error) {
       if (error?.response.status === HttpStatusCode.NotFound) {
         setError("email", { message: "Invalid email or password" });
       }
-
+    } finally {
       setLoading((prev) => ({ ...prev, loading: false }));
     }
   };
 
   return (
     <div className="container" style={{ maxWidth: "400px", marginTop: "50px" }}>
-      <h2 className="text-center mb-4">Login</h2>
+      <h2 className="text-center mb-4">
+        {" "}
+        {isAdmin ? "Admin Login" : "Login"}{" "}
+      </h2>
 
       {Object.keys(errors).length > 0 && (
         <Alert variant="danger" className="mt-3">
