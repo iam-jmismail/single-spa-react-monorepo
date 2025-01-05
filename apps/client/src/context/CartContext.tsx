@@ -44,7 +44,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("use within CartProvider");
+    throw new Error("use useCart within CartProvider");
   }
   return context;
 };

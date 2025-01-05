@@ -40,7 +40,7 @@ const Login = () => {
         if (role === 2) {
           window.location.href = "/app";
         } else {
-          window.location.href = "http://localhost:9000/admin";
+          window.location.href = "/admin/orders";
         }
       }
     } catch (error) {
@@ -101,7 +101,12 @@ const Login = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button variant="dark" type="submit" className="w-100 mt-4">
+        <Button
+          variant="dark"
+          disabled={loading.loading}
+          type="submit"
+          className="w-100 mt-4"
+        >
           Login
         </Button>
       </Form>

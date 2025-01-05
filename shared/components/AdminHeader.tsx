@@ -1,20 +1,15 @@
-import { useCart } from "@apps/client/src/context/CartContext";
 import { useAuth } from "@shared/context/AuthContext";
-import React from "react";
-import { Navbar, Nav, Container, Badge, Button } from "react-bootstrap";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Header = () => {
-  const { getItemsCount } = useCart();
+const AdminHeader = () => {
   const { isAuthenticated, handleLogout } = useAuth();
-
-  const itemCount = getItemsCount();
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">
-          E-commerce
+        <Navbar.Brand as={Link} to="/orders">
+          E-commerce Admin
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -24,24 +19,16 @@ const Header = () => {
                 <Nav.Link as={Link} to="/login">
                   Login
                 </Nav.Link>
-                <Nav.Link as={Link} to="/signup">
+                {/* <Nav.Link as={Link} to="/signup">
                   Register
-                </Nav.Link>
+                </Nav.Link> */}
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/cart">
-                  Cart{" "}
-                  {itemCount > 0 && (
-                    <Badge bg="light" text="dark" className="ms-2">
-                      {itemCount}
-                    </Badge>
-                  )}
-                </Nav.Link>
                 <Nav.Link
                   as={Button}
                   variant="link"
-                  onClick={() => handleLogout()}
+                  onClick={() => handleLogout(true)}
                 >
                   Logout
                 </Nav.Link>
@@ -54,4 +41,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;

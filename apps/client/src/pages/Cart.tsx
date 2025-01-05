@@ -1,7 +1,4 @@
-import Layout from "@shared/components/Layout";
-import { IProduct } from "@shared/factories/ProductFactory";
 import { Toast } from "@shared/utils/toast";
-import React, { useState } from "react";
 import {
   Button,
   Col,
@@ -9,7 +6,6 @@ import {
   Container,
   ListGroup,
   ListGroupItem,
-  Alert,
   Form,
 } from "react-bootstrap";
 import { useCart } from "../context/CartContext";
@@ -17,11 +13,9 @@ import Header from "@shared/components/Header";
 import { IAddOrderReqBody, OrderFactory } from "@shared/factories/OrderFactory";
 import { useNavigate } from "react-router-dom";
 import EmptyCart from "../components/EmptyCart";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "@shared/context/AuthContext";
 
 type Props = {};
-
-type CartItem = IProduct & { quantity: number };
 
 const Cart = (props: Props) => {
   const { cart: prevCart, updateCart } = useCart();

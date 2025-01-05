@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "@shared/context/AuthContext";
 
 type Props = {};
 
@@ -135,7 +135,7 @@ const Products = (props: Props) => {
                         </Button>
                       )}
                     </>
-                  ) :  null}
+                  ) : null}
                 </Card.Body>
               </Card>
             </Col>

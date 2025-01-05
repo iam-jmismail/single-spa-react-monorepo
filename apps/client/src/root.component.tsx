@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
 import { ToastContainer } from "react-toastify";
 import { CartProvider } from "./context/CartContext";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "@shared/context/AuthContext";
 
 export default function Root(props) {
   return (

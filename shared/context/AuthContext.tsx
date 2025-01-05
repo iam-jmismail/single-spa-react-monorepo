@@ -2,12 +2,17 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  handleLogout: () => void;
+  handleLogout: (isAdmin?: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }) => {
+type ProviderProps = {
+  children: React.ReactNode;
+  isAdmin?: boolean | undefined;
+};
+
+export const AuthProvider = ({ children, isAdmin = false }: ProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -20,10 +25,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = (isAdmin: boolean = false) => {
     localStorage.removeItem("auth_token");
-    localStorage.removeItem("cart_items");
-    window.location.href = "/app";
+    if (isAdmin) {
+      window.location.href = "/admin";
+    } else {
+      localStorage.removeItem("cart_items");
+      window.location.href = "/app";
+    }
   };
 
   return (
