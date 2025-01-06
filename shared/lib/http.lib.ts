@@ -1,8 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-export interface ApiResponse<T = any> {
+export type PaginationMeta = {
+  currentPage: number;
+  lastPage: number;
+  totalRecords: number;
+};
+
+export interface ApiResponse<T = any, P = false> {
   data: T;
   message: string;
+  meta?: P extends true ? PaginationMeta : undefined;
 }
 
 const axiosInstance: AxiosInstance = axios.create({

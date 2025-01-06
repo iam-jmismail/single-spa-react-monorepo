@@ -14,8 +14,10 @@ export interface IProduct {
 export class ProductFactory {
   static http = axiosInstance;
 
-  static async getProducts() {
-    return await this.http.get<ApiResponse<IProduct[]>>("/product");
+  static async getProducts(pageNo: number = 1, limit: number = 10) {
+    return await this.http.get<ApiResponse<IProduct[], true>>(
+      `/product?page=${pageNo}&limit=${limit}`
+    );
   }
 
   static async updateProduct(productId: string, data: Partial<IProduct>) {

@@ -10,17 +10,26 @@ import {
   Col,
   Row,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "@shared/context/AuthContext";
+import { toast } from "react-toastify";
+import { PaginationContainer } from "@shared/components/Pagination";
+import usePagination from "@shared/hooks/usePagination";
+import { PaginationMeta } from "@shared/lib/http.lib";
+import moment from "moment";
 
 type Props = {};
 
-type CartItem = IProduct & { quantity: number };
-
 const Products = (props: Props) => {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [meta, setMeta] = useState<PaginationMeta>({
+    totalRecords: 1,
+    currentPage: 1,
+    lastPage: 1,
+  });
   const navigate = useNavigate();
+  const { limit, page } = usePagination();
   const { isAuthenticated } = useAuth();
   const { updateCart, cart } = useCart();
 
@@ -29,20 +38,28 @@ const Products = (props: Props) => {
       try {
         const {
           status,
-          data: { data },
-        } = await ProductFactory.getProducts();
+          data: { data, meta },
+        } = await ProductFactory.getProducts(page, limit);
         if (status === 200) {
           setProducts(data);
+          if (meta) {
+            setMeta(meta);
+          }
         }
       } catch (error) {
         if (error?.response.status === HttpStatusCode.Unauthorized) {
           navigate("/login");
+          return;
         }
+
+        toast.error(error?.response?.data?.message);
       }
     };
 
-    fetchProducts();
-  }, [navigate]);
+    if (page && limit) {
+      fetchProducts();
+    }
+  }, [navigate, page, limit]);
 
   const handleAddToCart = (productId: string) => {
     const product = products.find((p) => p._id === productId);
@@ -88,6 +105,9 @@ const Products = (props: Props) => {
                 <Card.Body>
                   <Card.Title className="mb-3">{product.name}</Card.Title>
                   <Card.Text className="mb-3">{product.description}</Card.Text>
+                  <Card.Subtitle className="mb-3">
+                    Posted {moment(product.createdAt).fromNow()}
+                  </Card.Subtitle>
                   <ListGroup className="list-group-flush">
                     <ListGroupItem className="d-flex justify-content-between">
                       <strong>Price:</strong>
@@ -140,6 +160,13 @@ const Products = (props: Props) => {
             </Col>
           ))}
         </Row>
+        <div className="my-3">
+          <PaginationContainer
+            currentPage={+page}
+            totalRecords={meta.totalRecords}
+            limit={+limit}
+          />
+        </div>
       </div>
     </Layout>
   );
