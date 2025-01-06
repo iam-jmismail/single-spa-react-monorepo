@@ -174,9 +174,16 @@ export const Orders = (props: Props) => {
           </thead>
           <tbody>
             {orders.map(
-              ({ _id, status, createdAt, totalOrderPrice, products }) => (
+              ({
+                _id,
+                status,
+                createdAt,
+                totalOrderPrice,
+                products,
+                orderNumber,
+              }) => (
                 <tr key={_id}>
-                  <td>{_id}</td>
+                  <td>{orderNumber}</td>
                   <td>{getOrderStatusBadge(status)}</td>
                   <td>{currencyFormat(Number(totalOrderPrice))} INR</td>
                   <td>{products.length}</td>

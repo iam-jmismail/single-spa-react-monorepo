@@ -17,6 +17,7 @@ export enum OrderTypes {
 
 export interface IOrdersDto {
   _id: string;
+  orderNumber: number;
   totalOrderPrice: number;
   products: (Partial<IProductDto> & { quantity: number })[];
   status: OrderTypes;
