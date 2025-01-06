@@ -1,7 +1,26 @@
 <single-spa-router>
   <main>
     <route default>
-      <application name="@single-spa/welcome"></application>
+      <!-- <application name="@single-spa/welcome"></application> -->
+      <div class="container my-4">
+        <h3>Apps</h3>
+        <div class="list-group">
+          <div
+            class="list-group-item"
+            style="cursor: pointer"
+            onclick="showAdminapp()"
+          >
+            /admin
+          </div>
+          <div
+            class="list-group-item"
+            style="cursor: pointer"
+            onclick="showClientapp()"
+          >
+            /app
+          </div>
+        </div>
+      </div>
     </route>
     <route path="/app">
       <application name="@sspa-poc/client"></application>

@@ -81,6 +81,13 @@ export const Products = (props: Props) => {
     setShowAddModal(true);
   };
 
+  const handleDeleteProduct = async (id: string) => {
+    const { status } = await ProductFactory.deleteProduct(id);
+    if (status === HttpStatusCode.Ok) {
+      updateProducts(products.filter((p) => p._id !== id));
+    }
+  };
+
   return (
     <Layout isAdmin>
       <div className="d-flex justify-content-between align-items-center">
@@ -138,7 +145,7 @@ export const Products = (props: Props) => {
                   </Button>
                   <Button
                     variant="danger-outline"
-                    onClick={() => alert(`Deleting ${name}`)}
+                    onClick={() => handleDeleteProduct(_id)}
                   >
                     <FaTrash />
                   </Button>

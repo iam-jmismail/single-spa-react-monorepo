@@ -39,7 +39,7 @@ const Login = () => {
       if (status === HttpStatusCode.Ok) {
         if (isAdmin && role == 1) {
           localStorage.setItem("auth_token", auth_token);
-          window.location.href = "/admin/orders";
+          window.location.href = "/admin/dashboard";
         } else if (isAdmin && role !== 1) {
           setError("email", { message: "Invalid user" });
         } else if (!isAdmin && role == 2) {

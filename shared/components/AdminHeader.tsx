@@ -8,7 +8,7 @@ const AdminHeader = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/orders">
+        <Navbar.Brand as={Link} to="/dashboard">
           E-commerce Admin
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -30,4 +30,8 @@ export class ProductFactory {
   static async addProduct(data: IProduct) {
     return await this.http.post<ApiResponse<IProduct>>(`/product`, data);
   }
+
+  static async deleteProduct(productId: string) {
+    return await this.http.delete<ApiResponse<null>>(`/product/${productId}`);
+  }
 }

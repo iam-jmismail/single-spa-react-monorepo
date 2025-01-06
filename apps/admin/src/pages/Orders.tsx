@@ -156,37 +156,42 @@ export const Orders = (props: Props) => {
 
         <div></div>
       </div>
-      <Table striped bordered>
-        <thead>
-          <tr>
-            <th>Order Id</th>
-            <th>Status</th>
-            <th>Order Price</th>
-            <th>Ordered On</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map(
-            ({ _id, status, createdAt, totalOrderPrice, products }) => (
-              <tr key={_id}>
-                <td>{_id}</td>
-                <td>{getOrderStatusBadge(status)}</td>
-                <td>{totalOrderPrice}</td>
-                <td>{moment(createdAt).format("YYYY-MM-DD HH:mm A")}</td>
-                <td>
-                  <Button
-                    variant="outline-dark"
-                    onClick={() => handleShowModal(_id, products)}
-                  >
-                    <FaEye />
-                  </Button>
-                </td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </Table>
+
+      {loading.list ? (
+        <>Loading...</>
+      ) : (
+        <Table striped bordered>
+          <thead>
+            <tr>
+              <th>Order Id</th>
+              <th>Status</th>
+              <th>Order Price</th>
+              <th>Ordered On</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map(
+              ({ _id, status, createdAt, totalOrderPrice, products }) => (
+                <tr key={_id}>
+                  <td>{_id}</td>
+                  <td>{getOrderStatusBadge(status)}</td>
+                  <td>{totalOrderPrice}</td>
+                  <td>{moment(createdAt).format("YYYY-MM-DD HH:mm A")}</td>
+                  <td>
+                    <Button
+                      variant="outline-dark"
+                      onClick={() => handleShowModal(_id, products)}
+                    >
+                      <FaEye />
+                    </Button>
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </Table>
+      )}
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
