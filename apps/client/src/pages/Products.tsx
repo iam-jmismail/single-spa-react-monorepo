@@ -18,6 +18,7 @@ import { PaginationContainer } from "@shared/components/Pagination";
 import usePagination from "@shared/hooks/usePagination";
 import { PaginationMeta } from "@shared/lib/http.lib";
 import moment from "moment";
+import { currencyFormat } from "@shared/utils/currency.util";
 
 type Props = {};
 
@@ -112,7 +113,7 @@ const Products = (props: Props) => {
                     <ListGroupItem className="d-flex justify-content-between">
                       <strong>Price:</strong>
                       <span>
-                        {product.price} {product.currency}
+                        {currencyFormat(product.price)} {product.currency}
                       </span>
                     </ListGroupItem>
                   </ListGroup>

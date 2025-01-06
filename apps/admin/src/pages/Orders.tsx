@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { FaEye, FaTimes, FaTruck } from "react-icons/fa";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { currencyFormat } from "@shared/utils/currency.util";
 
 type Props = {};
 
@@ -166,6 +167,7 @@ export const Orders = (props: Props) => {
               <th>Order Id</th>
               <th>Status</th>
               <th>Order Price</th>
+              <th>Products</th>
               <th>Ordered On</th>
               <th>Actions</th>
             </tr>
@@ -176,7 +178,8 @@ export const Orders = (props: Props) => {
                 <tr key={_id}>
                   <td>{_id}</td>
                   <td>{getOrderStatusBadge(status)}</td>
-                  <td>{totalOrderPrice}</td>
+                  <td>{currencyFormat(Number(totalOrderPrice))} INR</td>
+                  <td>{products.length}</td>
                   <td>{moment(createdAt).format("YYYY-MM-DD HH:mm A")}</td>
                   <td>
                     <Button
@@ -211,7 +214,7 @@ export const Orders = (props: Props) => {
                 <tr key={index}>
                   <td>{name}</td>
                   <td>{quantity}</td>
-                  <td>{price}</td>
+                  <td>{currencyFormat(Number(price))} INR</td>
                 </tr>
               ))}
             </tbody>

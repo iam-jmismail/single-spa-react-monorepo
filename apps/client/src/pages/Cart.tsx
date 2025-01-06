@@ -14,6 +14,7 @@ import { IAddOrderReqBody, OrderFactory } from "@shared/factories/OrderFactory";
 import { useNavigate } from "react-router-dom";
 import EmptyCart from "../components/EmptyCart";
 import { useAuth } from "@shared/context/AuthContext";
+import { currencyFormat } from "@shared/utils/currency.util";
 
 type Props = {};
 
@@ -58,6 +59,7 @@ const Cart = (props: Props) => {
     );
   };
 
+  // Standard charge
   const shipping = 5.0;
   const tax = 0.1;
 
@@ -101,7 +103,8 @@ const Cart = (props: Props) => {
                           <h5>{item.name}</h5>
                           <p>{item.description}</p>
                           <p>
-                            <strong>Price:</strong> {item.price} {item.currency}
+                            <strong>Price:</strong> {currencyFormat(item.price)}{" "}
+                            {item.currency}
                           </p>
                         </Col>
                         <Col md={4} className="d-flex align-items-center">
@@ -152,20 +155,25 @@ const Cart = (props: Props) => {
                     <strong>Items in Cart:</strong> {prevCart.length}
                   </ListGroupItem>
                   <ListGroupItem>
-                    <strong>Sub Total:</strong> {getTotal().toFixed(2)}{" "}
+                    <strong>Sub Total:</strong>{" "}
+                    {currencyFormat(Number(getTotal().toFixed(2)))}{" "}
                     {prevCart[0]?.currency}
                   </ListGroupItem>
                   <ListGroupItem>
-                    <strong>Shipping:</strong> {shipping.toFixed(2)}{" "}
+                    <strong>Shipping:</strong>{" "}
+                    {currencyFormat(Number(shipping.toFixed(2)))}{" "}
                     {prevCart[0]?.currency}
                   </ListGroupItem>
                   <ListGroupItem>
-                    <strong>Tax:</strong> {(getTotal() * tax).toFixed(2)}{" "}
+                    <strong>Tax:</strong>{" "}
+                    {currencyFormat(Number((getTotal() * tax).toFixed(2)))}{" "}
                     {prevCart[0]?.currency}
                   </ListGroupItem>
                   <ListGroupItem>
                     <strong>Total:</strong>{" "}
-                    {getTotalWithShippingAndTax().toFixed(2)}{" "}
+                    {currencyFormat(
+                      Number(getTotalWithShippingAndTax().toFixed(2))
+                    )}{" "}
                     {prevCart[0]?.currency}
                   </ListGroupItem>
                   <ListGroupItem className="text-center">
