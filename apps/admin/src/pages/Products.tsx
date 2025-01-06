@@ -114,7 +114,7 @@ export const Products = (props: Props) => {
             <th>Price</th>
             <th>Currency</th>
             <th>Added</th>
-            <th>Actions</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>

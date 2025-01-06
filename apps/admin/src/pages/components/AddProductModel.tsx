@@ -39,6 +39,7 @@ export const AddProductModel = ({ setShowModal }: Props) => {
       } = await ProductFactory.addProduct({
         ...data,
         price: +data.price || 0,
+        currency: "INR",
       });
       if (status === HttpStatusCode.Ok) {
         toast.success(`Product Added`);
